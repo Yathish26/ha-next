@@ -1,11 +1,6 @@
 import Contact from "../../Data/data";
 import Link from "next/link";
-import { League_Spartan } from 'next/font/google';
-
-const leagueSpartan = League_Spartan({
-    subsets: ['latin'],
-    weight: ['400', '700'],
-});
+import { leagueSpartan } from "@/lib/font";
 
 export default function Footer() {
   return (

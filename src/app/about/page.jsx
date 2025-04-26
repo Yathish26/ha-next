@@ -1,11 +1,11 @@
 import Footer from "../parts/Footer";
 import Header from "../parts/Header";
-import { League_Spartan } from 'next/font/google';
+import { leagueSpartan } from "@/lib/font";
 
-const leagueSpartan = League_Spartan({
-    subsets: ['latin'],
-    weight: ['400', '700'],
-});
+
+export const metadata = {
+    title: "About Us",
+};
 
 export default function AboutUs() {
     return (

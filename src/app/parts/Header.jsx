@@ -4,18 +4,7 @@ import React, { useState, useEffect } from 'react';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import Svg from './svg/svgvault';
-import { League_Spartan } from 'next/font/google';
-import { Bree_Serif } from 'next/font/google';
-
-const leagueSpartan = League_Spartan({
-    subsets: ['latin'],
-    weight: ['400', '700'],
-});
-
-const breeSerif = Bree_Serif({
-    subsets: ['latin'],
-    weight: '400',
-})
+import { leagueSpartan, breeSerif } from '@/lib/font';
 
 export function Header() {
     const [location, setLocation] = useState({ lat: null, lon: null });

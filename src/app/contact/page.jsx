@@ -3,6 +3,10 @@ import Header from "../parts/Header";
 import Footer from "../parts/Footer";
 import { leagueSpartan } from "@/lib/font";
 
+export const metadata = {
+    title: "Contact Us"
+}
+
 export default function ContactUs() {
     return (
         <div className="flex-1 flex flex-col">
