@@ -52,40 +52,36 @@ export function Header() {
 
     return (
         <div className="bg-gray-900 h-fit flex flex-col">
-            {login ? <LoginHeader /> : (
-                <>
-                    <div className="flex flex-col w-full items-center relative">
-                        <div className="flex mo:justify-center w-full items-center px-6 py-8 justify-between mo:flex-col">
-                            <div className="flex items-center gap-4">
-                                <Link href="/" passHref>
-                                    <div className="cursor-pointer">
-                                        <Svg icon="hirearrivebird" />
-                                    </div>
-                                </Link>
-                                <Link href="/" passHref>
-                                    <div className={`${breeSerif.className} text-white text-4xl cursor-pointer`}>Hire Arrive</div>
-                                </Link>
+            <div className="flex flex-col w-full items-center relative">
+                <div className="flex mo:justify-center w-full items-center px-6 py-8 justify-between mo:flex-col">
+                    <div className="flex items-center gap-4">
+                        <Link href="/" passHref>
+                            <div className="cursor-pointer">
+                                <Svg icon="hirearrivebird" />
                             </div>
-                            <div className="absolute left-1/2 transform -translate-x-1/2 mo:hidden">
-                                <Menus />
-                            </div>
-                            <div className="hidden mo:block">
-                                <Menus />
-                            </div>
-                            <div className={`${errorClear() ? 'hidden' : ''}`}>
-                                <div className="flex items-center gap-4">
-                                    <div className="flex items-center">
-                                        <Svg icon="headerlocation" />
-                                        <div className={`text-white ${leagueSpartan.className} text-xl`}>
-                                            <h1>{error ? error : place}</h1>
-                                        </div>
-                                    </div>
+                        </Link>
+                        <Link href="/" passHref>
+                            <div className={`${breeSerif.className} text-white text-4xl cursor-pointer`}>Hire Arrive</div>
+                        </Link>
+                    </div>
+                    <div className="absolute left-1/2 transform -translate-x-1/2 mo:hidden">
+                        <Menus />
+                    </div>
+                    <div className="hidden mo:block">
+                        <Menus />
+                    </div>
+                    <div className={`${errorClear() ? 'hidden' : ''}`}>
+                        <div className="flex items-center gap-4">
+                            <div className="flex items-center">
+                                <Svg icon="headerlocation" />
+                                <div className={`text-white ${leagueSpartan.className} text-xl`}>
+                                    <h1>{error ? error : place}</h1>
                                 </div>
                             </div>
                         </div>
                     </div>
-                </>
-            )}
+                </div>
+            </div>
         </div>
     );
 }

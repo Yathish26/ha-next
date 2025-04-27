@@ -1,5 +1,11 @@
-import { leagueSpartan } from "@/lib/font";
+import Login from "./login";
 
-export function Login() {
-    return <div>login</div>;
+export const metadata = {
+    title: 'Login - Hire Arrive',
+};
+
+export default function LoginPage() {
+    return (
+        <Login/>
+    );
 }
