@@ -56,12 +56,16 @@ export default function Login() {
 
             router.push('/');
         } catch (error) {
+            console.error('Login Error:', error);
+        
             if (error.response && error.response.data) {
                 setErrorMessage(error.response.data.message || 'Username or password is incorrect');
+            } else if (error.request) {
+                setErrorMessage('No response from server. Please check your network or try again later.');
             } else {
                 setErrorMessage('An unexpected error occurred. Please try again.');
             }
-        }
+        }        
     };
 
     const handleGoogleSignInSuccess = async (credentialResponse) => {
