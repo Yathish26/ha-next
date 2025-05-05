@@ -3,7 +3,7 @@ import React, { useEffect, useState, useCallback, useRef } from 'react';
 import axios from 'axios';
 import { formatDistanceToNow } from 'date-fns';
 import Link from 'next/link';
-import { usePathname, useRouter } from 'next/navigation';
+import { usePathname, useRouter, useSearchParams } from 'next/navigation';
 import DataBank from '@/Data/Bank';
 import PlainBlog from './Plainblog';
 import Svg from '../parts/svg/svgvault';
@@ -12,6 +12,8 @@ import Widgets from './Widgets';
 import CryptoWidget from './CryptoWidget';
 import Header from '../parts/Header';
 import Footer from '../parts/Footer';
+import { leagueSpartan } from '@/lib/font';
+import Loading2 from '../parts/Loading2';
 
 
 export default function Blog() {
@@ -33,36 +35,24 @@ export default function Blog() {
     const [financeCat, setFinanceCat] = useState(false);
     const [cryptoCat, setCryptoCat] = useState(false);
 
-
-    const location = usePathname();
     const navigate = useRouter();
+    const searchParams = useSearchParams();
     const cache = useRef({});
 
     const categories = DataBank().blogCategories;
 
-
-    useEffect(() => {
-        window.scrollTo(0, 0);
-        const query = new URLSearchParams(location.search);
-        const category = query.keys().next().value;
-
-        if (category) {
-            handleCategoryClick(category);
-        }
-    }, []);
+    const category = searchParams.get("category");
+    const queryKey = category || 'default';
 
 
     const tagquery = () => {
-        const query = new URLSearchParams(location.search).keys().next().value;
-        return query ? `&category=${query}` : '';
+        const category = searchParams.get("category"); // Fix here
+        return category ? `&category=${category}` : '';
     };
-
-
 
 
     const fetchData = async () => {
         setLoading(true);
-        const queryKey = location.search || 'default';
 
         if (cache.current[queryKey]) {
             const cachedData = cache.current[queryKey];
@@ -112,9 +102,7 @@ export default function Blog() {
 
 
     useEffect(() => {
-        window.scrollTo(0, 0);
 
-        const queryKey = location.search || 'default';
         if (cache.current[queryKey]) {
             const cachedData = cache.current[queryKey];
             setPopularBlogs(cachedData.popularBlogs);
@@ -122,11 +110,14 @@ export default function Blog() {
             setTopBlogs(cachedData.topBlogs);
             setHeadlines(cachedData.headlines);
             setRecommended(cachedData.recommended);
+            setHome(category ? false : true);
+            setSelectedCategory(category || null);
             setLoading(false);
         } else {
             fetchData();
         }
-    }, [location.search]);
+    }, [searchParams]);
+
 
     const generateSlug = useCallback(
         (title) => title.toLowerCase().replace(/ /g, "-").replace(/[^\w-]+/g, ""),
@@ -139,10 +130,10 @@ export default function Blog() {
         setSelectedCategory(category);
         if (category === "Latest") {
             setHome(true);
-            navigate(`/blog`);
+            navigate.push(`/blog`);
         } else {
             setHome(false);
-            navigate(`/blog?${category.toLowerCase()}`);
+            navigate.push(`/blog?category=${category.toLowerCase()}`);
         }
     };
 
@@ -271,7 +262,7 @@ export default function Blog() {
         return (
             <div>
                 <h1 className='text-[2rem] font-semibold my-6'>Popular</h1>
-                <div className='w-full h-full  mo:mt-4 grid gap-2 grid-cols-1 bl:grid-cols-2'>
+                <div className='w-full h-full  mo:mt-4 grid gap-2 grid-cols-2'>
                     {popularBlogs.map((blog, id) => {
                         const descriptionWithImage = blog.description.match(/<img [^>]*src="([^"]+)"/);
                         const firstImageUrl = descriptionWithImage ? descriptionWithImage[1] : null;
@@ -325,7 +316,7 @@ export default function Blog() {
         return (
             <div>
                 <h1 className='text-[2rem] font-semibold my-6'>Latest</h1>
-                <div className='w-full h-full  mo:mt-16 grid gap-2 grid-cols-1 bl:grid-cols-2'>
+                <div className='w-full h-full  mo:mt-16 grid gap-2 grid-cols-2'>
                     {(latestblogs)
                         .sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt))
                         .map((blog, id) => {
@@ -404,7 +395,7 @@ export default function Blog() {
         return (
             <div className={`${searchShow ? "block" : "hidden"} mo:p-7 w-full  mo:w-full h-fit`}>
                 <h1 className='text-[2rem] font-semibold my-6'>Results for "{search}"</h1>
-                <div className='w-full h-full  mo:mt-16 grid gap-2 grid-cols-1 bl:grid-cols-2'>
+                <div className='w-full h-full  mo:mt-16 grid gap-2 grid-cols-2'>
                     {(searchResults)
                         .map((blog, id) => {
                             const descriptionWithImage = blog.description.match(/<img [^>]*src="([^"]+)"/);
@@ -458,7 +449,7 @@ export default function Blog() {
     return (
         <>
             <Header />
-            <div className={`bg-[#F4DCFF] w-full mo:bg-[#eacfff] font-spartan px-7 mo:px-0 flex-1 flex justify-center ${error ? "items-center" : ''}`} >
+            <div className={`bg-[#F4DCFF] w-full mo:bg-[#eacfff] ${leagueSpartan.className} px-7 mo:px-0 flex-1 flex justify-center ${error ? "items-center" : ''}`} >
                 {error && <Blogfail />}
                 {!error &&
                     <>
